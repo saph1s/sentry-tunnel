@@ -95,7 +95,9 @@ func (h *Handler) Tunnel(w http.ResponseWriter, r *http.Request) {
 	req.Header.Set("User-Agent", h.cfg.UserAgent)
 
 	// Forward real client IP
-	req.Header.Set("X-Forwarded-For", h.clientIP(r))
+	clientIP := h.clientIP(r)
+	req.Header.Set("X-Forwarded-For", clientIP)
+	req.Header.Set("X-Real-IP", clientIP)
 
 	resp, err := h.client.Do(req)
 	if err != nil {
