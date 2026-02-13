@@ -1,0 +1,19 @@
+services:
+  sentry-tunnel:
+    build:
+      context: .
+      args:
+        VERSION: "1.0.0"
+        COMMIT: "${GIT_COMMIT:-unknown}"
+    restart: unless-stopped
+    ports:
+      - "8100:8100"
+    environment:
+      # Required: your Sentry self-hosted URL
+      SENTRY_UPSTREAM: "https://sentry.internal.example.com"
+      # Optional: comma-separated allowed project IDs
+      ALLOWED_PROJECTS: "1,2,3"
+      # Optional: trust X-Forwarded-For from reverse proxy (default false)
+      TRUST_PROXY: "true"
+      # Optional: listen address (default :8100)
+      # LISTEN_ADDR: ":8100"
